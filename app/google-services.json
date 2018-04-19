@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "259317811261",
+    "firebase_url": "https://wojcik-moview-quot.firebaseio.com",
+    "project_id": "wojcik-moview-quot",
+    "storage_bucket": "wojcik-moview-quot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259317811261:android:9a67e8e41cda21b3",
+        "android_client_info": {
+          "package_name": "rose.wojcikmg.moviequotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259317811261-kkg8dhmbiat7439539r2etnh0mfb8r80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rose.wojcikmg.moviequotes",
+            "certificate_hash": "44fb5d216cfffc2e2ce9410a87fbfaf2eecc8341"
+          }
+        },
+        {
+          "client_id": "259317811261-a5v1507oia09cav418fvt9tlim4lclj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl669VCrhvv4OEn_2O8moZgBYOSGBvuMw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259317811261-a5v1507oia09cav418fvt9tlim4lclj4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
