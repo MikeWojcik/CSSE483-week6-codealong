@@ -6,6 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +21,15 @@ import java.util.List;
 public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.ViewHolder> {
 
     private List<MovieQuote> mMovieQuotes;
+    private DatabaseReference mMovieQuotesRef;
     private Callback mCallback;
 
 
     public MovieQuoteAdapter(Callback callback) {
         mCallback = callback;
+        mMovieQuotesRef = FirebaseDatabase.getInstance().getReference().child("quotes");
         mMovieQuotes = new ArrayList<>();
+        mMovieQuotesRef.addChildEventListener(new QuotesChildEventListener());
     }
 
     @Override
@@ -37,8 +46,7 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
     }
 
     public void remove(MovieQuote movieQuote) {
-        //TODO: Remove the next line(s) and use Firebase instead
-        mMovieQuotes.remove(movieQuote);
+        mMovieQuotesRef.remove(movieQuote.getKey());
         notifyDataSetChanged();
     }
 
@@ -49,8 +57,9 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
     }
 
     public void add(MovieQuote movieQuote) {
+        mMovieQuotesRef.push().setValue(movieQuote);
         //TODO: Remove the next line(s) and use Firebase instead
-        mMovieQuotes.add(0, movieQuote);
+//        mMovieQuotes.add(0, movieQuote);
         notifyDataSetChanged();
     }
 
@@ -87,6 +96,35 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
         public boolean onLongClick(View v) {
             remove(mMovieQuotes.get(getAdapterPosition()));
             return true;
+        }
+    }
+
+    private class QuotesChildEventListener implements ChildEventListener {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            MovieQuote quote = dataSnapshot.getValue(MovieQuote.class);
+            quote.setKey(dataSnapshot.getKey());
+            mMovieQuotes.add(0,quote);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
         }
     }
 }
