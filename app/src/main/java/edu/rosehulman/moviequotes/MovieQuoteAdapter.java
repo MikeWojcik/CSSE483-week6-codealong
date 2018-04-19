@@ -46,8 +46,7 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
     }
 
     public void remove(MovieQuote movieQuote) {
-        mMovieQuotesRef.remove(movieQuote.getKey());
-        notifyDataSetChanged();
+        mMovieQuotesRef.child(movieQuote.getKey()).removeValue();
     }
 
 
@@ -58,15 +57,14 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
 
     public void add(MovieQuote movieQuote) {
         mMovieQuotesRef.push().setValue(movieQuote);
-        //TODO: Remove the next line(s) and use Firebase instead
-//        mMovieQuotes.add(0, movieQuote);
         notifyDataSetChanged();
     }
 
     public void update(MovieQuote movieQuote, String newQuote, String newMovie) {
-        //TODO: Remove the next line(s) and use Firebase instead
         movieQuote.setQuote(newQuote);
         movieQuote.setMovie(newMovie);
+        mMovieQuotesRef.child(movieQuote.getKey()).setValue(movieQuote);
+
         notifyDataSetChanged();
     }
 
@@ -110,11 +108,29 @@ public class MovieQuoteAdapter extends RecyclerView.Adapter<MovieQuoteAdapter.Vi
 
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+            String key = dataSnapshot.getKey();
+            MovieQuote newMovieQuote = dataSnapshot.getValue(MovieQuote.class);
+            for(MovieQuote movieQuote: mMovieQuotes){
+                if(movieQuote.getKey().equals(key)){
+                  movieQuote.setVals(newMovieQuote);
+                    notifyDataSetChanged();
+                    return;
+                }
+            }
         }
 
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
+            String key = dataSnapshot.getKey();
+
+            for(MovieQuote movieQuote : mMovieQuotes){
+                if(movieQuote.getKey().equals(key)){
+                    mMovieQuotes.remove(movieQuote);
+                    notifyDataSetChanged();
+                    return;
+                }
+            }
+
         }
 
         @Override

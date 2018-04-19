@@ -42,4 +42,9 @@ public class MovieQuote {
     public void setKey(String key) {
         this.key = key;
     }
+
+    public void setVals(MovieQuote newMovieQuote) {
+        this.setMovie(newMovieQuote.getMovie());
+        this.setQuote(newMovieQuote.getQuote());
+    }
 }
